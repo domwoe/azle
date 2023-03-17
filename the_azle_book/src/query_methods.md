@@ -9,7 +9,7 @@
 -   Latency on the order of ~100 milliseconds
 -   5 billion Wasm instruction limit
 -   4 GiB heap limit
--   ~32k queries per second per canister
+-   ~36k queries per second per canister
 
 The most basic way to expose your canister's functionality publicly is through a query method. Here's an example of a simple query method:
 
@@ -47,7 +47,7 @@ Calling `set` will perform the operation of setting the `key` property on the `d
 
 This is because query methods are executed on a single node machine and do not go through [consensus](https://internetcomputer.org/how-it-works/consensus/). This results in lower latencies, perhaps on the order of 100 milliseconds.
 
-There is a limit to how much computation can be done in a single call to a query method. The current query call limit is [5 billion Wasm instructions](https://internetcomputer.org/docs/current/developer-docs/production/instruction-limits). Here's an example of a query method that runs the risk of reaching the limit:
+There is a limit to how much computation can be done in a single call to a query method. The current query call limit is [5 billion Wasm instructions](https://internetcomputer.org/docs/current/developer-docs/production/instruction-limits). This roughly corresponds to a runtime of 2s.  Here's an example of a query method that runs the risk of reaching the limit:
 
 ```typescript
 import { nat32, $query } from 'azle';
@@ -71,4 +71,4 @@ With an argument of `600`, `pyramid` will fail with an error `...exceeded the in
 
 Keep in mind that each query method invocation has up to 4 GiB of heap available.
 
-In terms of query scalability, an individual canister [likely has an upper bound of ~36k queries per second](https://forum.dfinity.org/t/what-is-the-theroretical-number-for-txns-per-second-on-internet-computer-right-now/14039/6).
+In terms of query scalability, an individual canister on an application subnet [likely has an upper bound of ~36k queries per second](https://forum.dfinity.org/t/what-is-the-theroretical-number-for-txns-per-second-on-internet-computer-right-now/14039/6). The number of queries per second scales linarly with the number of nodes in the subnet. 
